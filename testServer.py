@@ -21,18 +21,24 @@ Holidays = [
     "Thanksgiving", "Christmas Day"
 ]
 holidayDates = {}
+year = datetime.date.today().year
 
 
 def get_holidays():
     global hList
     h_added = False
-    hList = holidays.US(years=2021).items()
+    e_added = False
+    hList = holidays.US(years=year).items()
     for date, name in sorted(hList):
-        if datetime.date(2021, 10, 31) < date and h_added == False:
-            holidayDates[datetime.date(2021, 10, 31)] = "Halloween"
+        if easter(year) < date and e_added == False:
+            holidayDates[easter(year)] = "Easter"
+            e_added = True
+
+        if datetime.date(year, 10, 31) < date and h_added == False:
+            holidayDates[datetime.date(year, 10, 31)] = "Halloween"
             h_added = True
         holidayDates[date] = name
-    print(easter(2022))
+    print(holidayDates)
 
 
 def getNxtHoliday():
