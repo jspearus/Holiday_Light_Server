@@ -17,7 +17,7 @@ server.bind(ADDR)
 
 # todo add list of holidays
 Holidays = [
-    "New Year's Day", "Memorial Day", "Independence Day", "Halloween",
+    "New Year's Day", "Easter", "Memorial Day", "Independence Day", "Halloween",
     "Thanksgiving", "Christmas Day"
 ]
 holidayDates = {}
@@ -29,6 +29,7 @@ def get_holidays():
     h_added = False
     e_added = False
     hList = holidays.US(years=year).items()
+    # add Custom Holidays
     for date, name in sorted(hList):
         if easter(year) < date and e_added == False:
             holidayDates[easter(year)] = "Easter"
