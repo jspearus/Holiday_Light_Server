@@ -70,6 +70,8 @@ def handle_client(conn, addr):
                 connected = False
             elif msg == 'holiday':
                 msg = nxtHoliday
+            elif msg == 'today':
+                msg = datetime.date.today()
 
             print(f"[{addr}] {msg}")
             conn.send(f"Msg received - {msg}".encode(FORMAT))
@@ -79,6 +81,7 @@ def handle_client(conn, addr):
 
 def start():
     server.listen()
+    print("[STARTING] server is starting...")
     print(f"[LISTENING] Server is listening on {SERVER}")
     while True:
         conn, addr = server.accept()
@@ -88,5 +91,4 @@ def start():
         print(f"[ACTIVE CONNECTIONS] {threading.activeCount() - 1}")
 
 
-print("[STARTING] server is starting...")
 start()
