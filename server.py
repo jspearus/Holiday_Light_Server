@@ -23,6 +23,8 @@ Holidays = [
 holidayDates = {}
 year = datetime.date.today().year
 
+commands = {}
+
 
 def get_holidays():
     global hList
@@ -39,7 +41,6 @@ def get_holidays():
             holidayDates[datetime.date(year, 10, 31)] = "Halloween"
             h_added = True
         holidayDates[date] = name
-    print(holidayDates)
 
 
 def getNxtHoliday():
@@ -59,22 +60,47 @@ getNxtHoliday()
 
 def handle_client(conn, addr):
     print(f"[NEW CONNECTION] {addr} connected.")
-
+    global commands
+    named = ''
     connected = True
     while connected:
         msg_length = conn.recv(HEADER).decode(FORMAT)
         if msg_length:
             msg_length = int(msg_length)
             msg = conn.recv(msg_length).decode(FORMAT)
+            if msg == "site" and named == '':
+                commands[msg] = 'done'
+                print(commands)
+                named = msg
+            elif msg == "Ctrl" and named == '':
+                commands[msg] = 'done'
+                print(commands)
+                named = msg
+            elif msg == "Light" and named == '':
+                commands[msg] = 'done'
+                print(commands)
+                named = msg
             if msg == DISCONNECT_MESSAGE:
                 connected = False
             elif msg == 'holiday':
                 msg = nxtHoliday
             elif msg == 'today':
                 msg = datetime.date.today()
+            elif ', ' in msg:
+                com = msg.split(', ')
+                commands[com[0]] = com[1]
+                print(commands)
+            if msg != ' ':
+                print(f"[{addr}] {msg}")
+                conn.send(f"Msg received! - {msg}".encode(FORMAT))
 
-            print(f"[{addr}] {msg}")
+        if commands[named] != "done":
+            if commands[named] == 'holiday':
+                msg = nxtHoliday
+            else:
+                msg = commands[named]
             conn.send(f"Msg received - {msg}".encode(FORMAT))
+            commands[named] = 'done'
 
     conn.close()
 
