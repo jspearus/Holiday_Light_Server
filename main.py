@@ -22,8 +22,6 @@ def home():
     if request.method == 'POST':
         event = request.form.get('eventSel')
         send(event)
-        time.sleep(.3)
-        send(event)
         event = ''
         return redirect(url_for('home'))
 
@@ -37,7 +35,6 @@ def send(msg):
     send_length += b' ' * (HEADER - len(send_length))
     client.send(send_length)
     client.send(message)
-    print(client.recv(2048).decode(FORMAT))
     msg = ''
 
 
