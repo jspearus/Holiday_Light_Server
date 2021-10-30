@@ -26,7 +26,6 @@ year = datetime.date.today().year
 
 commands = {}
 names = {}
-named = ''
 
 
 def get_holidays():
@@ -64,7 +63,8 @@ getNxtHoliday()
 def handle_client(conn, addr):
     print(f"[NEW CONNECTION] {addr} connected.")
     global commands
-    global named
+    global names
+    named = ''
     connected = True
     while connected:
         msg_length = conn.recv(HEADER).decode(
@@ -74,41 +74,28 @@ def handle_client(conn, addr):
             msg = conn.recv(msg_length).decode(FORMAT)
             if named == '':
                 commands[msg] = 'done'
+                names[addr[1]] = msg
                 print(commands)
                 named = msg
             if msg == DISCONNECT_MESSAGE:
+                commands[named] = 'quit'
                 connected = False
-            elif msg == 'holiday':
-                msg = nxtHoliday
-            elif msg == 'today':
-                msg = datetime.date.today()
             elif ', ' in msg:
                 com = msg.split(', ')
                 commands[com[0]] = com[1]
                 print(commands)
             if msg != '#':
                 print(f"[{addr}] {msg}")
-# todo this function may need to be in a separate thread????????
-        # if commands[named] != "done":
-        #     if commands[named] == 'holiday':
-        #         msg = nxtHoliday
-
-        #     elif commands[named] == 'today':
-        #         msg = datetime.date.today()
-
-        #     else:
-        #         msg = commands[named]
-
-        #     conn.sendall(f"Msg received - {msg}".encode(FORMAT))
-        #     commands[named] = 'done'
 
     conn.close()
 
 
-def client_send(conn, addr, named):
-    print(f"[NEW SEND CONNECTION] {addr} connected as {named}.")
+def client_send(conn, addr):
     global commands
+    global names
     connected = True
+    named = names[addr[1]]
+    print(f"[NEW SEND CONNECTION] {addr} connected as {named}.")
     while connected:
         if commands[named] != "done":
             if commands[named] == 'holiday':
@@ -117,11 +104,17 @@ def client_send(conn, addr, named):
             elif commands[named] == 'today':
                 msg = datetime.date.today()
 
+            elif commands[named] == 'quit':
+                connected = False
+                break
+
             else:
                 msg = commands[named]
 
-            conn.sendall(f"Msg received - {msg}".encode(FORMAT))
+            conn.send(f"Msg received! - {msg}".encode(FORMAT))
             commands[named] = 'done'
+
+    conn.close()
 
 
 def start():
@@ -136,7 +129,7 @@ def start():
         thread.start()
         time.sleep(2)
         threadSend = threading.Thread(
-            target=client_send, args=(conn, addr, named))
+            target=client_send, args=(conn, addr))
         threadSend.start()
 
         print(f"[ACTIVE CONNECTIONS] {(threading.activeCount()/2) - 1.5}")
