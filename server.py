@@ -2,6 +2,7 @@ import socket
 import threading
 import datetime
 import holidays
+import time
 from dateutil.easter import *
 
 
@@ -24,6 +25,7 @@ holidayDates = {}
 year = datetime.date.today().year
 
 commands = {}
+named = ''
 
 
 def get_holidays():
@@ -61,22 +63,15 @@ getNxtHoliday()
 def handle_client(conn, addr):
     print(f"[NEW CONNECTION] {addr} connected.")
     global commands
-    named = ''
+    global named
     connected = True
     while connected:
-        msg_length = conn.recv(HEADER).decode(FORMAT)
-        if msg_length:
+        msg_length = conn.recv(HEADER).decode(
+            FORMAT)  # this might be haning up the read
+        if msg_length:                               # wound move till it recievs data
             msg_length = int(msg_length)
             msg = conn.recv(msg_length).decode(FORMAT)
-            if msg == "site" and named == '':
-                commands[msg] = 'done'
-                print(commands)
-                named = msg
-            elif msg == "Ctrl" and named == '':
-                commands[msg] = 'done'
-                print(commands)
-                named = msg
-            elif msg == "Light" and named == '':
+            if named == '':
                 commands[msg] = 'done'
                 print(commands)
                 named = msg
@@ -90,19 +85,42 @@ def handle_client(conn, addr):
                 com = msg.split(', ')
                 commands[com[0]] = com[1]
                 print(commands)
-            if msg != ' ':
+            if msg != '#':
                 print(f"[{addr}] {msg}")
-                conn.send(f"Msg received! - {msg}".encode(FORMAT))
+# todo this function may need to be in a separate thread????????
+        # if commands[named] != "done":
+        #     if commands[named] == 'holiday':
+        #         msg = nxtHoliday
 
+        #     elif commands[named] == 'today':
+        #         msg = datetime.date.today()
+
+        #     else:
+        #         msg = commands[named]
+
+        #     conn.sendall(f"Msg received - {msg}".encode(FORMAT))
+        #     commands[named] = 'done'
+
+    conn.close()
+
+
+def client_send(conn, addr, named):
+    print(f"[NEW SEND CONNECTION] {addr} connected as {named}.")
+    global commands
+    connected = True
+    while connected:
         if commands[named] != "done":
             if commands[named] == 'holiday':
                 msg = nxtHoliday
+
+            elif commands[named] == 'today':
+                msg = datetime.date.today()
+
             else:
                 msg = commands[named]
-            conn.send(f"Msg received - {msg}".encode(FORMAT))
-            commands[named] = 'done'
 
-    conn.close()
+            conn.sendall(f"Msg received - {msg}".encode(FORMAT))
+            commands[named] = 'done'
 
 
 def start():
@@ -111,10 +129,16 @@ def start():
     print(f"[LISTENING] Server is listening on {SERVER}")
     while True:
         conn, addr = server.accept()
+
         thread = threading.Thread(
             target=handle_client, args=(conn, addr))
         thread.start()
-        print(f"[ACTIVE CONNECTIONS] {threading.activeCount() - 1}")
+        time.sleep(1)
+        threadSend = threading.Thread(
+            target=client_send, args=(conn, addr, named))
+        threadSend.start()
+
+        print(f"[ACTIVE CONNECTIONS] {(threading.activeCount()/2) - 1.5}")
 
 
 start()
