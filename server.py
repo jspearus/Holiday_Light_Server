@@ -25,6 +25,7 @@ holidayDates = {}
 year = datetime.date.today().year
 
 commands = {}
+names = {}
 named = ''
 
 
@@ -133,7 +134,7 @@ def start():
         thread = threading.Thread(
             target=handle_client, args=(conn, addr))
         thread.start()
-        time.sleep(1)
+        time.sleep(2)
         threadSend = threading.Thread(
             target=client_send, args=(conn, addr, named))
         threadSend.start()
