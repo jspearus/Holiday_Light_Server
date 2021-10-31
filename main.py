@@ -27,6 +27,18 @@ def home():
 
     return render_template("index.html")
 
+@app.route('/hook', methods=['GET', 'POST'])
+def hook():
+    print("found")
+    if request.method == 'GET':
+        command = request.args.get('comm')
+        print(command)
+        send(command)
+        event = ''
+        return redirect(url_for('home'))
+
+    return render_template("index.html")
+
 
 def send(msg):
     message = msg.encode(FORMAT)
