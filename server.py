@@ -4,11 +4,12 @@ import datetime
 import holidays
 import time
 from dateutil.easter import *
+import os
 
 
 HEADER = 64
 PORT = 5000
-SERVER = "192.168.1.110"
+SERVER = "192.168.1.114"
 ADDR = (SERVER, PORT)
 FORMAT = 'utf-8'
 DISCONNECT_MESSAGE = "!DISCONNECT"
@@ -49,7 +50,7 @@ def getNxtHoliday():
     global nxtHoliday
     global nxtDate
     for date, name in holidayDates.items():
-        if datetime.date.today() < date and name in Holidays:
+        if datetime.date.today() <= date and name in Holidays:
             nxtDate = date
             nxtHoliday = name
             break
@@ -66,6 +67,7 @@ def handle_client(conn, addr):
     global names
     named = ''
     connected = True
+    conn.send(nxtHoliday.encode(FORMAT))
     while connected:
         msg_length = conn.recv(HEADER).decode(
             FORMAT)  # this might be haning up the read
@@ -103,6 +105,7 @@ def client_send(conn, addr):
 
             elif commands[named] == 'today':
                 msg = datetime.date.today()
+                msg = msg.strftime("%m/%d/%Y")
 
             elif commands[named] == 'quit':
                 connected = False
@@ -111,7 +114,7 @@ def client_send(conn, addr):
             else:
                 msg = commands[named]
 
-            conn.send(f"Msg received! - {msg}".encode(FORMAT))
+            conn.send(msg.encode(FORMAT))
             commands[named] = 'done'
 
     conn.close()
