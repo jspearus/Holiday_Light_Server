@@ -8,7 +8,7 @@ from dateutil.easter import *
 
 HEADER = 64
 PORT = 5000
-SERVER = "192.168.1.114"
+SERVER = "192.168.1.110"
 ADDR = (SERVER, PORT)
 FORMAT = 'utf-8'
 DISCONNECT_MESSAGE = "!DISCONNECT"
