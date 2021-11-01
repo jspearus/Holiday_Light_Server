@@ -27,6 +27,7 @@ year = datetime.date.today().year
 
 commands = {}
 names = {}
+clients = []
 
 def get_holidays():
     global hList
@@ -64,6 +65,7 @@ def handle_client(conn, addr):
     print(f"[NEW CONNECTION] {addr} connected.")
     global commands
     global names
+    global clients
     named = ''
     connected = True
     conn.send(nxtHoliday.encode(FORMAT))
@@ -78,8 +80,12 @@ def handle_client(conn, addr):
                 names[addr[1]] = msg
                 print(commands)
                 named = msg
+                if named not in clients and named != "site":
+                    clients.append(named)
+
             if msg == DISCONNECT_MESSAGE:
                 commands[named] = 'quit'
+                clients.remove(named)
                 connected = False
             elif ', ' in msg:
                 com = msg.split(', ')
@@ -100,7 +106,14 @@ def client_send(conn, addr):
     while connected:
         if commands[named] != "done":
             if commands[named] == 'holiday':
+                getNxtHoliday()
                 msg = nxtHoliday
+
+            elif commands[named] == 'devices':
+                msg = ''
+                for client in clients:
+                    msg += client + ', '
+                msg = str(msg)
 
             elif commands[named] == 'today':
                 msg = datetime.date.today()
@@ -112,8 +125,8 @@ def client_send(conn, addr):
 
             else:
                 msg = commands[named]
-
-            conn.send(msg.encode(FORMAT))
+            if connected:
+                conn.send(msg.encode(FORMAT))
             commands[named] = 'done'
 
     conn.close()
@@ -125,7 +138,8 @@ def start():
     print(f"[LISTENING] Server is listening on {SERVER}")
     while True:
         conn, addr = server.accept()
-
+        #todo might need to change the order the threads are started. 
+        #       it can send a device list update to the website
         thread = threading.Thread(
             target=handle_client, args=(conn, addr))
         thread.start()
