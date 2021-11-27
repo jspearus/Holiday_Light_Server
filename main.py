@@ -44,6 +44,16 @@ def hook():
 
     return render_template("index.html")
 
+@app.route('/remote', methods=['GET', 'POST'])
+def remote():
+    if request.method == 'POST':
+        event = request.form.get('eventSel')
+        send(event)
+        event = ''
+        return redirect(url_for('remote'))
+
+    return render_template("remote.html")
+
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     global dev_list
