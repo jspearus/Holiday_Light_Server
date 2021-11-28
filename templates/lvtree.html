@@ -14,51 +14,43 @@
 
 <body>
     <h1 class="text-danger" align="center">Holiday Light Controller<h1>
-            <h3 class="text-secondary" align="center">V.3.0<h3></h3>
+            <h3 class="text-secondary" align="center">LV Tree V.3.0 <h3></h3>
+
                 <form method="POST">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="sDev">Devices</label>
-                        </div>
-                        <select class="custom-select" name="sDev" id="sDev">
-                            <option selected>{{selDev}}</option>
-                            {% for device in devices %}
-                            <option value={{device}}>{{device}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
                     <!-- Button submits the form -->
                     <div align="left" class="row justify-content-md-center">
                         <div class="col col-md-2">
                             <button class="btn btn-success" name="eventSel" type="submit"
-                                value="Christmas Day">Christmas</button>
+                                value="ctrl, New Year's Day">New Year's</button>
                         </div>
                         <div>
                             <h5 align="center" class="text-danger">Holidays
                         </div>
                         <div align="right" class="col col-md-2">
-                            <button class="btn btn-success" name="eventSel" type="submit" value="holiday">nxtHoliday
-                            </button>
+                            <button class="btn btn-success" name="eventSel" type="submit" value="ctrl, holiday">Holiday
+                                to
+                                Ctrl</button>
                         </div>
                     </div>
                     <br /><br /><br /><br />
                     <div align="left" class="row justify-content-md-center">
                         <div class="col col-md-2">
-                            <button class="btn btn-success" name="eventSel" type="submit" value="test">Test
-                            </button>
+                            <button class="btn btn-success" name="eventSel" type="submit"
+                                value="ctrl, test">Test</button>
                         </div>
 
                         <div>
                             <h5 align="center" class="text-danger">today
                         </div>
                         <div align="right" class="col col-md-2">
-                            <button class="btn btn-success" name="eventSel" type="submit" value="advent">advent</button>
+                            <button class="btn btn-success" name="eventSel" type="submit"
+                                value="ctrl, today">today</button>
                         </div>
                     </div>
                     <br /><br /><br /><br />
                     <div align="left" class="row justify-content-md-center">
                         <div class="col col-md-2">
-                            <button class="btn btn-success" name="eventSel" type="submit" value="play"> Grinch
+                            <button class="btn btn-success" name="eventSel" type="submit" value="ctrl, play"> Grinch
                             </button>
                         </div>
 
@@ -66,7 +58,7 @@
                             <h5 align="center" class="text-danger">Video
                         </div>
                         <div align="right" class="col col-md-2">
-                            <button class="btn btn-success" name="eventSel" type="submit" value="snow"> Snowman
+                            <button class="btn btn-success" name="eventSel" type="submit" value="ctrl, snow"> Snowman
                             </button>
                         </div>
                     </div>

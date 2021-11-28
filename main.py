@@ -54,6 +54,16 @@ def remote():
 
     return render_template("remote.html")
 
+@app.route('/lvtree', methods=['GET', 'POST'])
+def lvtree():
+    if request.method == 'POST':
+        event = request.form.get('eventSel')
+        send(event)
+        event = ''
+        return redirect(url_for('lvtree'))
+
+    return render_template("lvtree.html")
+
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     global dev_list
