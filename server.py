@@ -68,7 +68,6 @@ def handle_client(conn, addr):
     global clients
     named = ''
     connected = True
-    conn.setTimeout(5.0)
     conn.send(nxtHoliday.encode(FORMAT))
     while connected:
         msg_length = conn.recv(HEADER).decode(
@@ -136,7 +135,6 @@ def client_send(conn, addr):
 
 def start():
     server.listen()
-    server.setTimeout(5.0)
     print("[STARTING] server is starting...")
     print(f"[LISTENING] Server is listening on {SERVER}")
     while True:
