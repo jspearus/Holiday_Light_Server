@@ -93,7 +93,7 @@ def handle_client(conn, addr):
                 print(commands)
             if msg != '#':
                 print(f"[{addr}] {msg}")
-
+    print(f"[{addr}] handle client closed")
     conn.close()
 
 
@@ -120,7 +120,7 @@ def client_send(conn, addr):
                 msg = msg.strftime("%m/%d/%Y")
 
             elif commands[named] == 'quit':
-                commands.remove(named)
+                del commands[named]
                 connected = False
                 break
 
@@ -129,7 +129,7 @@ def client_send(conn, addr):
             if connected:
                 conn.send(msg.encode(FORMAT))
             commands[named] = 'done'
-
+    print(f"[{addr}] client send closed")
     conn.close()
 
 
