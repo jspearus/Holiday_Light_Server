@@ -120,6 +120,7 @@ def client_send(conn, addr):
                 msg = msg.strftime("%m/%d/%Y")
 
             elif commands[named] == 'quit':
+                commands.remove(named)
                 connected = False
                 break
 
