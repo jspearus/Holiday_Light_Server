@@ -90,8 +90,9 @@ def handle_client(conn, addr):
             elif ', ' in msg:
                 com = msg.split(', ')
                 commands[com[0]] = com[1]
-                print(commands)
-            if msg != '#' and msg != 'ping':
+                if(not 'ping' in msg):
+                    print(commands)
+            if msg != '#' and not 'ping' in msg:
                 print(f"[{addr}] {msg}")
     print(f"[{named}] handle client closed at {datetime.datetime.now()}")
     conn.close()
