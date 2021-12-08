@@ -91,9 +91,9 @@ def handle_client(conn, addr):
                 com = msg.split(', ')
                 commands[com[0]] = com[1]
                 print(commands)
-            if msg != '#':
+            if msg != '#' and msg != 'ping':
                 print(f"[{addr}] {msg}")
-    print(f"[{addr}] handle client closed")
+    print(f"[{named}] handle client closed at {datetime.datetime.now()}")
     conn.close()
 
 
@@ -129,7 +129,7 @@ def client_send(conn, addr):
             if connected:
                 conn.send(msg.encode(FORMAT))
             commands[named] = 'done'
-    print(f"[{addr}] client send closed")
+    print(f"[{named}] client send closed at {datetime.datetime.now()}")
     conn.close()
 
 
