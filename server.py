@@ -24,7 +24,7 @@ Holidays = [
 ]
 holidayDates = {}
 year = datetime.date.today().year
-
+nxtHoliday = ''
 commands = {}
 names = {}
 clients = []
@@ -66,6 +66,7 @@ def handle_client(conn, addr):
     global commands
     global names
     global clients
+    global nxtHoliday
     named = ''
     connected = True
     conn.send(nxtHoliday.encode(FORMAT))
@@ -101,6 +102,7 @@ def handle_client(conn, addr):
 def client_send(conn, addr):
     global commands
     global names
+    global nxtHoliday
     connected = True
     named = names[addr[1]]
     print(f"[NEW SEND CONNECTION] {addr} connected as {named}.")
