@@ -21,6 +21,7 @@ DataIn = ''
 connected = True
 dev_list = []
 selDev = ''
+speed = 'MED'
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -53,6 +54,24 @@ def remote():
         return redirect(url_for('remote'))
 
     return render_template("remote.html")
+
+@app.route('/cam', methods=['GET', 'POST'])
+def cam():
+    global speed
+    if request.method == 'POST':
+        event = request.form.get('eventSel')
+        print(event)
+        if (event == 'lvhtpc, low'):
+            speed = 'LOW'
+        elif (event == 'lvhtpc, med'):
+            speed = 'MED'
+        elif (event == 'lvhtpc, hi'):
+            speed = 'HI'
+        send(event)
+        event = ''
+        return redirect(url_for('cam'))
+
+    return render_template("cam.html", speed=speed)
 
 @app.route('/lvtree', methods=['GET', 'POST'])
 def lvtree():
