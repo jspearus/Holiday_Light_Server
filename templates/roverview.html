@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        crossorigin="anonymous" />
+    <title>Rover Vision Controller</title>
+</head>
+
+<body>
+    <h1 class="text-primary" align="center">Rover Control System<h1>
+        <h3 class="text-secondary" align="center">View Control<h3></h3>
+
+                <form method="POST">
+                    <!-- Button submits the form -->
+                    <br />
+                    <div>
+                        <h5 align="center" class="text-primary">Presets
+                    </div>
+
+                    <div align="center" class="row justify-content-md-center">
+                        <div align="center" class="col col-md-2">
+                            <button class="btn btn-dark" name="eventSel" type="submit" value="rover, cam-pLeft"> left
+                            </button>
+                        </div>
+                        <div align="center" class="col col-md-2">
+                            <button class="btn btn-dark" name="eventSel" type="submit" value="rover, cam-pFront"> front
+                            </button>
+                        </div>
+                        <div align="center" class="col col-md-2">
+                            <button class="btn btn-dark" name="eventSel" type="submit" value="rover, cam-pRight"> right
+                            </button>
+                        </div>
+                    </div>
+                    <br /><br /><br />
+                    <div align="center" class="row justify-content-md-center">
+                        <div align="center" class="col col-md-2">
+                            <button class="btn btn-dark" name="eventSel" type="submit" value="rover, cam-cup">Up</button>
+                        </div>
+                    </div>
+                    <br />
+                    <div align="center" class="row justify-content-md-center">
+                        <div class="col col-md-2">
+                            <button class="btn btn-dark" name="eventSel" type="submit" value="rover, cam-cleft">Left
+                            </button>
+                        </div>
+                        <div>
+                            <h5 align="center" class="text-secondary">Move
+                        </div>
+                        <div align="center" class="col col-md-2">
+                            <button class="btn btn-dark" name="eventSel" type="submit"
+                                value="rover, cam-cright">Right</button>
+                        </div>
+                    </div>
+                    </div>
+                    <br />
+                    <div align="center" class="row justify-content-md-center">
+                        <div class="col col-md-2">
+                            <button class="btn btn-dark" name="eventSel" type="submit" value="rover, cam-cdown"> Down
+                            </button>
+                        </div>
+
+                    </div>
+                    <br /><br />
+                    <div>
+                        <h5 align="center" class="text-primary">Speed: {{speed}}
+                    </div>
+
+                    <div align="center" class="row justify-content-md-center">
+                        <div align="center" class="col col-md-2">
+                            <button class="btn btn-dark" name="eventSel" type="submit" value="rover, cam-clow"> Low
+                            </button>
+                        </div>
+                        <div align="center" class="col col-md-2">
+                            <button class="btn btn-dark" name="eventSel" type="submit" value="rover, cam-cmed"> Med
+                            </button>
+                        </div>
+                        <div align="center" class="col col-md-2">
+                            <button class="btn btn-dark" name="eventSel" type="submit" value="rover, cam-chi"> Hi
+                            </button>
+                        </div>
+                    </div>
+                    <!-- End of button sends the delete command to delete the selected saved game -->
+                    <!-- Button submits the form -->
+                </form>
+                <!-- Javascript Libraries-->
+                <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+                    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+                    crossorigin="anonymous"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                    crossorigin="anonymous"></script>
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+                    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+                    crossorigin="anonymous"></script>
+
+</body>
+
+</html>

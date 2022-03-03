@@ -22,6 +22,7 @@ connected = True
 dev_list = []
 selDev = ''
 speed = 'MED'
+step = '75'
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -72,6 +73,40 @@ def cam():
         return redirect(url_for('cam'))
 
     return render_template("cam.html", speed=speed)
+
+@app.route('/rview', methods=['GET', 'POST'])
+def rview():
+    global speed
+    if request.method == 'POST':
+        event = request.form.get('eventSel')
+        print(event)
+        if (event == 'rover, cam-clow'):
+            speed = 'LOW'
+        elif (event == 'rover, cam-cmed'):
+            speed = 'MED'
+        elif (event == 'rover, cam-chi'):
+            speed = 'HI'
+        send(event)
+        event = ''
+        return redirect(url_for('rview'))
+
+    return render_template("roverview.html", speed=speed)
+
+@app.route('/pilot', methods=['GET', 'POST'])
+def pilot():
+    global speed
+    global step
+    if request.method == 'POST':
+        dir = request.form.get('eventSel')
+        step = request.form.get('steps')
+        event = dir + step
+ 
+        print(event)
+        send(event)
+        event = ''
+        return redirect(url_for('pilot'))
+
+    return render_template("pilot.html", speed=step)
 
 @app.route('/lvtree', methods=['GET', 'POST'])
 def lvtree():
